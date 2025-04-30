@@ -1,0 +1,108 @@
+﻿services:
+
+  paxos-node-1:
+    image: paxos-node
+    build:
+      context: .
+      dockerfile: PaxosAlgorithm/Dockerfile
+    container_name: paxos-node-1
+    ports:
+      - "7166:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - NODE_ID=1
+      - NODE_URL=paxos-node-1:8080
+      - CLUSTER_NODES=paxos-node-2:8080,paxos-node-3:8080,paxos-node-4:8080,paxos-node-5:8080
+    volumes:
+      - node1-data:/app/data
+    networks:
+      - paxos-network
+
+  paxos-node-2:
+    image: paxos-node
+    build:
+      context: .
+      dockerfile: PaxosAlgorithm/Dockerfile
+    container_name: paxos-node-2
+    ports:
+      - "7167:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - NODE_ID=2
+      - NODE_URL=paxos-node-2:8080
+      - CLUSTER_NODES=paxos-node-1:8080,paxos-node-3:8080,paxos-node-4:8080,paxos-node-5:8080
+    volumes:
+      - node2-data:/app/data
+    networks:
+      - paxos-network
+
+  paxos-node-3:
+    image: paxos-node
+    build:
+      context: .
+      dockerfile: PaxosAlgorithm/Dockerfile
+    container_name: paxos-node-3
+    ports:
+      - "7168:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - NODE_ID=3
+      - NODE_URL=paxos-node-3:8080
+      - CLUSTER_NODES=paxos-node-1:8080,paxos-node-2:8080,paxos-node-4:8080,paxos-node-5:8080
+    volumes:
+      - node3-data:/app/data
+    networks:
+      - paxos-network
+
+  paxos-node-4:
+    image: paxos-node
+    build:
+      context: .
+      dockerfile: PaxosAlgorithm/Dockerfile
+    container_name: paxos-node-4
+    ports:
+      - "7169:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - NODE_ID=4
+      - NODE_URL=paxos-node-4:8080
+      - CLUSTER_NODES=paxos-node-1:8080,paxos-node-2:8080,paxos-node-3:8080,paxos-node-5:8080
+    volumes:
+      - node4-data:/app/data
+    networks:
+      - paxos-network
+
+  paxos-node-5:
+    image: paxos-node
+    build:
+      context: .
+      dockerfile: PaxosAlgorithm/Dockerfile
+    container_name: paxos-node-5
+    ports:
+      - "7170:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:8080
+      - NODE_ID=5
+      - NODE_URL=paxos-node-5:8080
+      - CLUSTER_NODES=paxos-node-1:8080,paxos-node-2:8080,paxos-node-3:8080,paxos-node-4:8080
+    volumes:
+      - node5-data:/app/data
+    networks:
+      - paxos-network
+
+networks:
+  paxos-network:
+    driver: bridge
+
+volumes:
+  node1-data:
+  node2-data:
+  node3-data:
+  node4-data:
+  node5-data:
+
